@@ -1,0 +1,71 @@
+<!----Diypa571, https://github.com/diypa571/7daysahead/new/main ---->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Seven Days Ahead</title>
+  <style>
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Seven Days Ahead</h1>
+  <button id="prevBtn">Previous</button>
+  <button id="nextBtn">Next</button>
+  <ul id="daysList"></ul>
+
+  <script>
+    // Function to format the date as 'YYYY-MM-DD'
+    function formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    // Get the current date
+    let currentDate = new Date();
+
+    // Create a list of the next seven days
+    function createDaysList() {
+      const daysList = document.getElementById('daysList');
+      daysList.innerHTML = ''; // Clear the list before adding new days
+
+      for (let i = 0; i < 7; i++) {
+        const nextDate = new Date(currentDate.getTime() + i * 24 * 60 * 60 * 1000);
+        const formattedDate = formatDate(nextDate);
+        const listItem = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = '?date=' + formattedDate;
+        link.textContent = formattedDate;
+        listItem.appendChild(link);
+        daysList.appendChild(listItem);
+      }
+    }
+
+    // Event listener for the next button
+    document.getElementById('nextBtn').addEventListener('click', function () {
+      currentDate = new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+      createDaysList();
+    });
+
+    // Event listener for the previous button
+    document.getElementById('prevBtn').addEventListener('click', function () {
+      currentDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+      createDaysList();
+    });
+
+    // Initial creation of the days list
+    createDaysList();
+  </script>
+</body>
+</html>
